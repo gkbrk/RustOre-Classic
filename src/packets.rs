@@ -3,15 +3,16 @@ extern crate flate2;
 use flate2::writer::GzEncoder;
 use std::io::MemWriter;
 
-use std::io::net::tcp::{TcpStream};
+use std::io::net::tcp::TcpStream;
 use std::io::{IoResult, IoError};
 
 use std::io::stdout;
 
 use config::Configuration;
 
+use mc_string::MCString;
+
 pub trait MCPackets{
-	fn write_mc_string(&mut self, mc_str: String);
 	fn send_server_ident(&mut self, config: Configuration);
 	fn send_ping(&mut self);
 	fn send_level_init(&mut self);
@@ -22,13 +23,6 @@ pub trait MCPackets{
 }
 
 impl MCPackets for TcpStream{
-	fn write_mc_string(&mut self, mc_str: String){
-		self.write(mc_str.as_bytes());
-		for i in range(0, 64 - mc_str.as_bytes().len()){
-			self.write_u8(0x20);
-		}
-	}
-	
 	fn send_server_ident(&mut self, config: Configuration){
 		self.write_u8(0x00);
 		self.write_u8(0x07);

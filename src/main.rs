@@ -10,10 +10,13 @@ use std::io::net::tcp::{TcpListener, TcpStream};
 use std::io::timer;
 use std::time::Duration;
 
+use std::io::MemReader;
+
 use config::Configuration;
-use packets::{MCPackets};
+use mc_string::MCString;
+use packets::MCPackets;
 
-
+mod mc_string;
 mod packets;
 mod config;
 
@@ -35,7 +38,8 @@ fn handle_connection(config: Configuration, mut conn: TcpStream) -> IoResult<()>
 	println!("{} is connecting to us...", ip);
 	loop{
 		let packet = parse_packet(config.clone(), conn.clone());
-		println!("{}", packet.packet_id);
+        let mut packet_data = MemReader::new(packet.data);
+		//println!("{}", packet.packet_id);
 		
 		if packet.packet_id == 0x00{
 			conn.send_server_ident(config.clone());
@@ -52,7 +56,7 @@ fn handle_connection(config: Configuration, mut conn: TcpStream) -> IoResult<()>
 			//conn.send_spawn_player(5*32, 15*32, 5*32, 5, 5);
 			conn.send_pos(5*32, 15*32, 5*32, 5, 5);
 		}else if packet.packet_id == 0x08{
-            println!("Player moved");
+            //println!("Player moved");
         }
 	}
 	Ok(())
@@ -96,9 +100,9 @@ fn main(){
     let mut acceptor = TcpListener::bind(config.address.as_slice(), config.port).listen().unwrap();
     println!("Rustymine is listening on {}:{}", config.address, config.port);
     for connection in acceptor.incoming(){
-		let clone = config.clone();
+		let config_clone = config.clone();
 		spawn(proc() {
-			handle_connection(clone, connection.unwrap());
+			handle_connection(config_clone, connection.unwrap());
 		});
 	}
 }
