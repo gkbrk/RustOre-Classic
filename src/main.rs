@@ -10,9 +10,6 @@ use std::io::net::tcp::{TcpListener, TcpStream};
 use std::io::timer;
 use std::time::Duration;
 
-use std::io::MemWriter;
-use flate2::writer::GzEncoder;
-
 use config::Configuration;
 use packets::{MCPackets};
 
@@ -46,18 +43,17 @@ fn handle_connection(config: Configuration, mut conn: TcpStream) -> IoResult<()>
 			//Send debug level data
 			conn.send_level_init();
 			let mut data: Vec<u8> = Vec::new();
-			data.push(500);
-			for i in range(0u, 500u){
+			for i in range(0u, 1000u){
 				data.push(0x01);
 			}
 			conn.send_chunk_data(data);
-			conn.send_level_finalize(10, 5, 10);
+			conn.send_level_finalize(10, 9, 10);
 			
-			conn.send_spawn_player(5, 3, 5, 5, 5);
-			conn.send_pos(5, 3, 5, 5, 5);
-			
-			conn.send_ping();
-		}
+			//conn.send_spawn_player(5*32, 15*32, 5*32, 5, 5);
+			conn.send_pos(5*32, 15*32, 5*32, 5, 5);
+		}else if packet.packet_id == 0x08{
+            println!("Player moved");
+        }
 	}
 	Ok(())
 }
@@ -65,8 +61,11 @@ fn handle_connection(config: Configuration, mut conn: TcpStream) -> IoResult<()>
 fn parse_packet(config: Configuration, mut conn: TcpStream) -> Packet{
 	let packet_id = conn.read_byte().unwrap();
 	let packet_len = match packet_id{
-		0 => 130,
-		_ => 1
+		0x00 => 130,
+        0x05 => 8,
+        0x08 => 9,
+        0x0d => 65,
+		_ => 0
 	};
 	let data = conn.read_exact(packet_len).unwrap();
 	return Packet{
