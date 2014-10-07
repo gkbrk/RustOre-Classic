@@ -50,11 +50,17 @@ fn handle_connection(config: Configuration, mut conn: TcpStream) -> IoResult<()>
 			for i in range(0u, 1000u){
 				data.push(0x01);
 			}
+            for i in range(0u, 500u){
+				data.push(0x03);
+			}
+            for i in range(0u, 100u){
+				data.push(0x02);
+			}
 			conn.send_chunk_data(data);
-			conn.send_level_finalize(10, 9, 10);
+			conn.send_level_finalize(10, 16, 10);
 			
 			//conn.send_spawn_player(5*32, 15*32, 5*32, 5, 5);
-			conn.send_pos(5*32, 15*32, 5*32, 5, 5);
+			conn.send_pos(5*32, 25*32, 5*32, 5, 5);
 		}else if packet.packet_id == 0x08{
             //println!("Player moved");
         }
