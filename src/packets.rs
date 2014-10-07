@@ -44,7 +44,7 @@ impl MCPackets for TcpStream{
 		let mut gzipper = GzEncoder::new(MemWriter::new(), flate2::Default);
         gzipper.write_be_i32((blocks.len() as i32));
         for block in blocks.iter(){
-            gzipper.write_u8(0x01);
+            gzipper.write_u8(*block);
         }
 		//gzipper.write(blocks.as_slice());
 		let bytes = gzipper.finish().unwrap().unwrap();
