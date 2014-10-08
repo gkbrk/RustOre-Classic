@@ -15,10 +15,12 @@ use std::io::MemReader;
 use config::Configuration;
 use mc_string::MCString;
 use packets::MCPackets;
+use heartbeat::Heartbeat;
 
 mod mc_string;
 mod packets;
 mod config;
+mod heartbeat;
 
 struct Packet{
 	packet_id: u8,
