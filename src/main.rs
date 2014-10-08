@@ -13,11 +13,13 @@ use config::Configuration;
 use mc_string::MCString;
 use packets::MCPackets;
 use heartbeat::Heartbeat;
+use world::World;
 
 mod mc_string;
 mod packets;
 mod config;
 mod heartbeat;
+mod world;
 
 struct Packet{
 	packet_id: u8,
@@ -37,18 +39,12 @@ fn handle_connection(config: Configuration, mut conn: TcpStream) -> IoResult<()>
 			
 			//Send debug level data
 			conn.send_level_init();
-			let mut data: Vec<u8> = Vec::new();
-			for i in range(0u, 1000u){
-				data.push(0x01);
-			}
-            for i in range(0u, 500u){
-				data.push(0x03);
-			}
-            for i in range(0u, 100u){
-				data.push(0x02);
-			}
-			conn.send_chunk_data(data);
-			conn.send_level_finalize(10, 16, 10);
+			let mut level = World::new(20, 20, 20);
+            for i in range(0u, 20){
+                level.set_block(i, i, i, 0x01);
+            }
+            level.send_world(conn.clone());
+			conn.send_level_finalize(20, 20, 20);
 			
 			//conn.send_spawn_player(5*32, 15*32, 5*32, 5, 5);
 			conn.send_pos(5*32, 25*32, 5*32, 5, 5);

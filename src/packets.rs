@@ -16,7 +16,7 @@ pub trait MCPackets{
 	fn send_server_ident(&mut self, config: Configuration);
 	fn send_ping(&mut self);
 	fn send_level_init(&mut self);
-	fn send_chunk_data(&mut self, blocks: Vec<u8>);
+	fn send_chunk_data(&mut self, length: i16, data: &[u8], percentage: u8);
 	fn send_level_finalize(&mut self, x_size: i16, y_size: i16, z_size: i16);
 	fn send_spawn_player(&mut self, x: i16, y: i16, z: i16, yaw: u8, pitch: u8);
 	fn send_pos(&mut self, x: i16, y: i16, z: i16, yaw: u8, pitch: u8);
@@ -39,24 +39,16 @@ impl MCPackets for TcpStream{
 		self.write_u8(0x02);
 	}
 	
-	fn send_chunk_data(&mut self, blocks: Vec<u8>){
+	fn send_chunk_data(&mut self, length: i16, data: &[u8], percentage: u8){
 		self.write_u8(0x03);
-		let mut gzipper = GzEncoder::new(MemWriter::new(), flate2::Default);
-        gzipper.write_be_i32((blocks.len() as i32));
-        for block in blocks.iter(){
-            gzipper.write_u8(*block);
-        }
-		//gzipper.write(blocks.as_slice());
-		let bytes = gzipper.finish().unwrap().unwrap();
-        self.write_be_i16((bytes.len() as i16));
-        for byte1 in bytes.iter(){
-            self.write_u8(*byte1);
-        }
-        //self.write(bytes.as_slice());
-        for i in range(0u, 1024 - bytes.len()){
+		self.write_be_i16(length);
+        
+        self.write(data);
+        
+        for i in range(0, 1024 - length){
 			self.write_u8(0x00);
 		}
-		self.write_u8(0x50);
+		self.write_u8(percentage);
 	}
 	
 	fn send_level_finalize(&mut self, x_size: i16, y_size: i16, z_size: i16){
