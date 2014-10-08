@@ -1,6 +1,5 @@
-extern crate time;
-extern crate curl;
 extern crate flate2;
+extern crate curl;
 
 use curl::http;
 
@@ -9,8 +8,6 @@ use std::io::net::tcp::{TcpListener, TcpStream};
 
 use std::io::timer;
 use std::time::Duration;
-
-use std::io::MemReader;
 
 use config::Configuration;
 use mc_string::MCString;
@@ -28,19 +25,11 @@ struct Packet{
 	data: Vec<u8>
 }
 
-fn send_heartbeat(config: Configuration) -> IoResult<()>{
-	let start_time: f64 = time::precise_time_s();
-    let response = http::handle().get(format!("https://minecraft.net/heartbeat.jsp?port={:u}&max={:u}&name={:s}&public={:s}&version=7&salt={:s}&users=0", config.port, config.max_players, config.server_name.as_slice(), config.is_public.as_slice(), config.salt.as_slice())).exec().unwrap();
-    println!("Heartbeat done! Took {} seconds.", time::precise_time_s() - start_time);
-    Ok(())
-}
-
 fn handle_connection(config: Configuration, mut conn: TcpStream) -> IoResult<()>{
 	let ip = try!(conn.peer_name()).ip;
 	println!("{} is connecting to us...", ip);
 	loop{
 		let packet = parse_packet(config.clone(), conn.clone());
-        let mut packet_data = MemReader::new(packet.data);
 		//println!("{}", packet.packet_id);
 		
 		if packet.packet_id == 0x00{
