@@ -98,13 +98,10 @@ fn main(){
         salt: "DEMOSALT12341".to_string(),
         heartbeat_interval: 45
     };
-    let timer_config_clone = config.clone();
-    spawn(proc() {
-        loop{
-            send_heartbeat(timer_config_clone.clone());
-            timer::sleep(Duration::seconds(timer_config_clone.heartbeat_interval));
-        }
-    });
+    
+    let heartbeat_sender = Heartbeat::new(config.clone());
+    heartbeat_sender.spawn_task();
+    
     let mut acceptor = TcpListener::bind(config.address.as_slice(), config.port).listen().unwrap();
     println!("Rustymine is listening on {}:{}", config.address, config.port);
     for connection in acceptor.incoming(){
