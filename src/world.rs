@@ -53,6 +53,8 @@ impl World{
     }
     
     pub fn send_world(&mut self, mut conn: TcpStream){
+        conn.send_level_init();
+        
         let gb = self.gzip_world();
         let bytes = gb.as_slice();
         let total_bytes = bytes.len();
@@ -72,5 +74,7 @@ impl World{
                 break;
             }
         }
+        
+        conn.send_level_finalize(self.x_size as i16, self.y_size as i16, self.z_size as i16);
     }
 }

@@ -38,13 +38,16 @@ fn handle_connection(config: Configuration, mut conn: TcpStream) -> IoResult<()>
 			conn.send_server_ident(config.clone());
 			
 			//Send debug level data
-			conn.send_level_init();
-			let mut level = World::new(20, 20, 20);
-            for i in range(0u, 20){
-                level.set_block(i, i, i, 0x01);
+			let mut level = World::new(10, 10, 10);
+            for i in range(0u, 10){
+                for i1 in range(0u, 10){
+                    for i2 in range(0u, 10){
+                        level.set_block(i, i1, i2, 0x01);
+                    }
+                }
             }
+            level.set_block(0, 0, 0, 0x01);
             level.send_world(conn.clone());
-			conn.send_level_finalize(20, 20, 20);
 			
 			//conn.send_spawn_player(5*32, 15*32, 5*32, 5, 5);
 			conn.send_pos(5*32, 25*32, 5*32, 5, 5);
