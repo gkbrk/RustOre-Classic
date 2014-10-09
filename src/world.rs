@@ -30,7 +30,7 @@ impl World{
     }
     
     pub fn calculate_block_from_coord(&mut self, x: uint, y: uint, z: uint) -> uint{
-        return (y * self.x_size + z) * self.y_size + x;
+        return (y * self.z_size + z) * self.x_size + x;
     }
     
     pub fn set_block(&mut self, x: uint, y: uint, z: uint, block_id: u8){

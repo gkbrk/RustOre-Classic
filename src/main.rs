@@ -40,7 +40,7 @@ fn handle_connection(config: Configuration, mut conn: TcpStream) -> IoResult<()>
 			conn.send_server_ident(config.clone());
 			
 			//Send debug level data
-			let mut level = World::new(10, 10, 10);
+			let mut level = World::new(100, 100, 10);
             for i in range(0u, 10){
                 for i1 in range(0u, 10){
                     for i2 in range(0u, 10){
