@@ -9,6 +9,8 @@ use std::io::net::tcp::{TcpListener, TcpStream};
 use std::io::timer;
 use std::time::Duration;
 
+use std::rand::task_rng;
+
 use config::Configuration;
 use mc_string::MCString;
 use packets::MCPackets;
@@ -83,7 +85,7 @@ fn main(){
         server_name: "RustServerBetaDontJoin".to_string(),
         server_motd: "A Minecraft classic server written in Rust!".to_string(),
         is_public: "True".to_string(),
-        salt: "DEMOSALT12341".to_string(),
+        salt: task_rng().gen_ascii_str(16).to_string(),
         heartbeat_interval: 45
     };
     
