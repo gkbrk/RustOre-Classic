@@ -3,7 +3,7 @@ name = "RustOre-Classic"
 version = "0.0.1"
 dependencies = [
  "curl 0.0.1 (git+https://github.com/carllerche/curl-rust#6d47499ae7a13a0ee1c31794b572d0cacdf0cd6a)",
- "flate2 0.0.1 (git+https://github.com/alexcrichton/flate2-rs#af5bb8b38f3899a9594934d432f2bcbc1a7a46a0)",
+ "flate2 0.0.1 (git+https://github.com/alexcrichton/flate2-rs#9be9775d3f50e961a2f99728b3de8d819f3939be)",
 ]
 
 [[package]]
@@ -17,18 +17,18 @@ dependencies = [
 [[package]]
 name = "encoding"
 version = "0.1.0"
-source = "git+https://github.com/lifthrasiir/rust-encoding#97e5a56658d11e6386d0d17386560094490b1daf"
+source = "git+https://github.com/lifthrasiir/rust-encoding#ff55916fec8b5bf8667a74d5a060c8c951f28fe0"
 
 [[package]]
 name = "flate2"
 version = "0.0.1"
-source = "git+https://github.com/alexcrichton/flate2-rs#af5bb8b38f3899a9594934d432f2bcbc1a7a46a0"
+source = "git+https://github.com/alexcrichton/flate2-rs#9be9775d3f50e961a2f99728b3de8d819f3939be"
 
 [[package]]
 name = "url"
 version = "0.1.0"
 source = "git+https://github.com/servo/rust-url#55b18b796ef2cef5490069dd450c60c2cc2c0c1b"
 dependencies = [
- "encoding 0.1.0 (git+https://github.com/lifthrasiir/rust-encoding#97e5a56658d11e6386d0d17386560094490b1daf)",
+ "encoding 0.1.0 (git+https://github.com/lifthrasiir/rust-encoding#ff55916fec8b5bf8667a74d5a060c8c951f28fe0)",
 ]
 
