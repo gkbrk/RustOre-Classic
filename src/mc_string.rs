@@ -24,9 +24,9 @@ impl MCString for TcpStream{
     
     fn write_mc_string(&mut self, mc_str: String){
         self.write(mc_str.as_bytes());
-		for i in range(0, 64 - mc_str.as_bytes().len()){
-			self.write_u8(0x20);
-		}
+        for i in range(0, 64 - mc_str.as_bytes().len()){
+            self.write_u8(0x20);
+        }
     }
 }
 
