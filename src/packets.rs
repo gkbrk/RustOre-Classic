@@ -20,6 +20,7 @@ pub trait MCPackets{
     fn send_level_finalize(&mut self, x_size: i16, y_size: i16, z_size: i16);
     fn send_spawn_player(&mut self, x: i16, y: i16, z: i16, yaw: u8, pitch: u8);
     fn send_pos(&mut self, x: i16, y: i16, z: i16, yaw: u8, pitch: u8);
+    fn send_chat_message(&mut self, player_id: i8, message: String);
 }
 
 impl MCPackets for TcpStream{
@@ -77,5 +78,11 @@ impl MCPackets for TcpStream{
         self.write_be_i16(z);
         self.write_u8(yaw);
         self.write_u8(pitch);
+    }
+    
+    fn send_chat_message(&mut self, player_id: i8, message: String){
+        self.write_u8(0x0d);
+        self.write_i8(player_id);
+        self.write_mc_string(message);
     }
 }
