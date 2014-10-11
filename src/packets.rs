@@ -66,7 +66,7 @@ impl Packet{
         };
     }
     
-    pub fn parse_position_and_orientation(&self) -> SetBlock{
+    pub fn parse_position_and_orientation(&self) -> PositionAndOrientation{
         let mut reader = MemReader::new(self.data.clone());
         return PositionAndOrientation{
             player_id: reader.read_u8().unwrap(),
