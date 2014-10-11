@@ -66,6 +66,18 @@ impl Packet{
         };
     }
     
+    pub fn parse_position_and_orientation(&self) -> SetBlock{
+        let mut reader = MemReader::new(self.data.clone());
+        return PositionAndOrientation{
+            player_id: reader.read_u8().unwrap(),
+            x: reader.read_be_i16().unwrap(),
+            y: reader.read_be_i16().unwrap(),
+            z: reader.read_be_i16().unwrap(),
+            yaw: reader.read_u8().unwrap(),
+            pitch reader.read_u8().unwrap():
+        };
+    }
+    
     pub fn parse_message(&self) -> Message{
         let mut reader = MemReader::new(self.data.clone());
         return Message{
@@ -88,6 +100,15 @@ struct SetBlock{
     pub z: i16,
     pub destroyed: bool,
     pub block_id: u8
+}
+
+struct PositionAndOrientation{
+    pub player_id: u8,
+    pub x: i16,
+    pub y: i16,
+    pub z: i16,
+    pub yaw: u8,
+    pub pitch: u8
 }
 
 struct Message{
