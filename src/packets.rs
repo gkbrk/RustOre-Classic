@@ -74,7 +74,7 @@ impl Packet{
             y: reader.read_be_i16().unwrap(),
             z: reader.read_be_i16().unwrap(),
             yaw: reader.read_u8().unwrap(),
-            pitch reader.read_u8().unwrap():
+            pitch: reader.read_u8().unwrap():
         };
     }
     
