@@ -1,3 +1,5 @@
+#![feature(struct_variant)]
+
 extern crate flate2;
 extern crate curl;
 
@@ -13,7 +15,7 @@ use std::rand::{task_rng, Rng};
 
 use config::Configuration;
 use mc_string::MCString;
-use packets::MCPackets;
+use packets::{Packet, MCPackets};
 use heartbeat::Heartbeat;
 use world::World;
 
@@ -23,21 +25,19 @@ mod config;
 mod heartbeat;
 mod world;
 
-struct Packet{
-    packet_id: u8,
-    packet_len: uint,
-    data: Vec<u8>
-}
-
 fn handle_connection(config: Configuration, mut conn: TcpStream) -> IoResult<()>{
     let ip = try!(conn.peer_name()).ip;
     println!("{} is connecting to us...", ip);
     loop{
-        let packet = parse_packet(config.clone(), conn.clone());
+        let packet = Packet::receive(conn.clone());
         //println!("{}", packet.packet_id);
         
         if packet.packet_id == 0x00{
+            let parsed = packet.parse_player_ident();
+            println!("{}", parsed.username);
+            
             conn.send_server_ident(config.clone());
+            
             
             //Send debug level data
             let mut level = World::new(100, 100, 10);
@@ -55,26 +55,12 @@ fn handle_connection(config: Configuration, mut conn: TcpStream) -> IoResult<()>
             conn.send_pos(5*32, 25*32, 5*32, 5, 5);
         }else if packet.packet_id == 0x08{
             //println!("Player moved");
+        }else if packet.packet_id == 0x0d{
+            let parsed = packet.parse_message();
+            println!("{}", parsed.message);
         }
     }
     Ok(())
-}
-
-fn parse_packet(config: Configuration, mut conn: TcpStream) -> Packet{
-    let packet_id = conn.read_byte().unwrap();
-    let packet_len = match packet_id{
-        0x00 => 130,
-        0x05 => 8,
-        0x08 => 9,
-        0x0d => 65,
-        _ => 0
-    };
-    let data = conn.read_exact(packet_len).unwrap();
-    return Packet{
-        packet_id: packet_id,
-        packet_len: packet_len,
-        data: data
-    }
 }
 
 fn main(){

@@ -2,6 +2,7 @@ extern crate flate2;
 
 use flate2::writer::GzEncoder;
 use std::io::MemWriter;
+use std::io::MemReader;
 
 use std::io::net::tcp::TcpStream;
 use std::io::{IoResult, IoError};
@@ -11,6 +12,90 @@ use std::io::stdout;
 use config::Configuration;
 
 use mc_string::MCString;
+
+
+pub struct Packet{
+    pub packet_id: u8,
+    pub packet_len: uint,
+    pub data: Vec<u8>
+}
+
+impl Packet{
+    pub fn receive(mut conn: TcpStream) -> Packet{
+        let packet_id = conn.read_byte().unwrap();
+        
+        let packet_len = match packet_id{
+            0x00 => 130,
+            0x05 => 8,
+            0x08 => 9,
+            0x0d => 65,
+            _ => 0
+        };
+        
+        let data = conn.read_exact(packet_len).unwrap();
+        
+        return Packet{
+            packet_id: packet_id,
+            packet_len: packet_len,
+            data: data
+        };
+    }
+    
+    pub fn parse_player_ident(&self) -> PlayerIdent{
+        let mut reader = MemReader::new(self.data.clone());
+        return PlayerIdent{
+            version: reader.read_u8().unwrap(),
+            username: reader.read_mc_string(),
+            verification_key: reader.read_mc_string(),
+            unused: reader.read_u8().unwrap()
+        };
+    }
+    
+    pub fn parse_set_block(&self) -> SetBlock{
+        let mut reader = MemReader::new(self.data.clone());
+        return SetBlock{
+            x: reader.read_be_i16().unwrap(),
+            y: reader.read_be_i16().unwrap(),
+            z: reader.read_be_i16().unwrap(),
+            destroyed: match reader.read_u8().unwrap(){
+                0x00 => true,
+                0x01 => false,
+                _ => false
+            },
+            block_id: reader.read_u8().unwrap()
+        };
+    }
+    
+    pub fn parse_message(&self) -> Message{
+        let mut reader = MemReader::new(self.data.clone());
+        return Message{
+            unused: reader.read_u8().unwrap(),
+            message: reader.read_mc_string()
+        };
+    }
+}
+
+struct PlayerIdent{
+    pub version: u8,
+    pub username: String,
+    pub verification_key: String,
+    unused: u8
+}
+
+struct SetBlock{
+    pub x: i16,
+    pub y: i16,
+    pub z: i16,
+    pub destroyed: bool,
+    pub block_id: u8
+}
+
+struct Message{
+    unused: u8,
+    pub message: String
+}
+
+
 
 pub trait MCPackets{
     fn send_server_ident(&mut self, config: Configuration);
