@@ -17,12 +17,14 @@ use config::Configuration;
 use mc_string::MCString;
 use packets::{Packet, MCPackets};
 use heartbeat::Heartbeat;
+use authentication_verifier::is_authenticated;
 use world::World;
 
 mod mc_string;
 mod packets;
 mod config;
 mod heartbeat;
+mod authentication_verifier;
 mod world;
 
 fn handle_connection(config: Configuration, mut conn: TcpStream) -> IoResult<()>{
@@ -34,6 +36,11 @@ fn handle_connection(config: Configuration, mut conn: TcpStream) -> IoResult<()>
         
         if packet.packet_id == 0x00{
             let parsed = packet.parse_player_ident();
+            if !is_authenticated(config.clone().salt, parsed.clone().username, parsed.clone().verification_key){
+                println!("Player tried to join without auth!");
+                conn.close_read();
+                return Ok(());
+            }
             println!("{}", parsed.username);
             
             conn.send_server_ident(config.clone());

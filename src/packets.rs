@@ -87,6 +87,7 @@ impl Packet{
     }
 }
 
+#[deriving(Clone)]
 struct PlayerIdent{
     pub version: u8,
     pub username: String,
@@ -94,6 +95,7 @@ struct PlayerIdent{
     unused: u8
 }
 
+#[deriving(Clone)]
 struct SetBlock{
     pub x: i16,
     pub y: i16,
@@ -102,6 +104,7 @@ struct SetBlock{
     pub block_id: u8
 }
 
+#[deriving(Clone)]
 struct PositionAndOrientation{
     pub player_id: u8,
     pub x: i16,
@@ -111,6 +114,7 @@ struct PositionAndOrientation{
     pub pitch: u8
 }
 
+#[deriving(Clone)]
 struct Message{
     unused: u8,
     pub message: String
