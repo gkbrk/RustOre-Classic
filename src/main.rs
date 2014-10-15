@@ -3,6 +3,8 @@
 extern crate flate2;
 extern crate curl;
 
+extern crate sync;
+
 use curl::http;
 
 use std::io::{Listener, Acceptor, IoResult, IoError, InvalidInput};
@@ -12,6 +14,8 @@ use std::io::timer;
 use std::time::Duration;
 
 use std::rand::{task_rng, Rng};
+
+use sync::{Mutex, Arc};
 
 use config::Configuration;
 use mc_string::MCString;
@@ -27,7 +31,7 @@ mod heartbeat;
 mod authentication_verifier;
 mod world;
 
-fn handle_connection(config: Configuration, mut conn: TcpStream) -> IoResult<()>{
+fn handle_connection(config: Configuration, mut conn: TcpStream, mutex_world: Arc<Mutex<World>>) -> IoResult<()>{
     let ip = try!(conn.peer_name()).ip;
     println!("{} is connecting to us...", ip);
     loop{
@@ -47,21 +51,18 @@ fn handle_connection(config: Configuration, mut conn: TcpStream) -> IoResult<()>
             
             
             //Send debug level data
-            let mut level = World::new(100, 100, 10);
-            for i in range(0u, 10){
-                for i1 in range(0u, 10){
-                    for i2 in range(0u, 10){
-                        level.set_block(i, i1, i2, 0x01);
-                    }
-                }
-            }
-            level.set_block(0, 0, 0, 0x01);
+            let mut level = mutex_world.lock();
             level.send_world(conn.clone());
             
             //conn.send_spawn_player(5*32, 15*32, 5*32, 5, 5);
             conn.send_pos(5*32, 25*32, 5*32, 5, 5);
         }else if packet.packet_id == 0x08{
             //println!("Player moved");
+        }else if packet.packet_id == 0x05{
+            let parsed = packet.parse_set_block();
+            let mut level = mutex_world.lock();
+            
+            level.set_block(parsed.x as uint, parsed.y as uint, parsed.z as uint, parsed.block_id);
         }else if packet.packet_id == 0x0d{
             let parsed = packet.parse_message();
             println!("{}", parsed.message);
@@ -82,6 +83,16 @@ fn main(){
         heartbeat_interval: 45
     };
     
+    let mut mc_world = World::new(10, 10, 10);
+    for i in range(0u, 10){
+        for i1 in range(0u, 10){
+            for i2 in range(0u, 10){
+                mc_world.set_block(i, i1, i2, 0x01);
+            }
+        }
+    }
+    let mutex_world = Arc::new(Mutex::new(mc_world));
+    
     let heartbeat_sender = Heartbeat::new(config.clone());
     heartbeat_sender.spawn_task();
     
@@ -89,8 +100,9 @@ fn main(){
     println!("Rustymine is listening on {}:{}", config.address, config.port);
     for connection in acceptor.incoming(){
         let config_clone = config.clone();
+        let mutex_world_clone = mutex_world.clone();
         spawn(proc() {
-            handle_connection(config_clone, connection.unwrap());
+            handle_connection(config_clone, connection.unwrap(), mutex_world_clone);
         });
     }
 }
