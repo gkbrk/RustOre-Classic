@@ -3,7 +3,16 @@ RustOre is a tiny Minecraft Classic server. It is a Work in Progress and still l
 
 #Functionality#
 * Can send heartbeats (Visible on the minecraft.net serverlist)
-* Spawns player on a tiny island in the middle of nowhere.
+* Can authenticate players with Minecraft.net
+* Spawns player on a tiny island in the middle of nowhere
+* Can store the world temporarily between connections
+
+#Planned Functionality#
+* Block physics
+* World saving/loading
+* Multiplayer support
+* Chat support
+* World generation
 
 #Compiling and Running#
 To build RustOre, you need to get Cargo and Rust (you can use rustup.sh for this).
