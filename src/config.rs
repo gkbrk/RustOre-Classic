@@ -6,6 +6,7 @@ pub struct Configuration{
     pub server_name: String,
     pub server_motd: String,
     pub is_public: String,
+    pub online_mode: bool,
     pub salt: String,
     pub heartbeat_interval: i64
 }

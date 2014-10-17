@@ -40,7 +40,7 @@ fn handle_connection(config: Configuration, mut conn: TcpStream, mutex_world: Ar
         
         if packet.packet_id == 0x00{
             let parsed = packet.parse_player_ident();
-            if !is_authenticated(config.clone().salt, parsed.clone().username, parsed.clone().verification_key){
+            if config.online_mode & !is_authenticated(config.clone().salt, parsed.clone().username, parsed.clone().verification_key){
                 println!("Player tried to join without auth!");
                 conn.close_read();
                 return Ok(());
@@ -82,6 +82,7 @@ fn main(){
         server_name: "RustServerBetaDontJoin".to_string(),
         server_motd: "A Minecraft classic server written in Rust!".to_string(),
         is_public: "True".to_string(),
+        online_mode: false,
         salt: task_rng().gen_ascii_chars().take(16).collect(),
         heartbeat_interval: 45
     };
