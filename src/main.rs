@@ -61,8 +61,11 @@ fn handle_connection(config: Configuration, mut conn: TcpStream, mutex_world: Ar
         }else if packet.packet_id == 0x05{
             let parsed = packet.parse_set_block();
             let mut level = mutex_world.lock();
-            
-            level.set_block(parsed.x as uint, parsed.y as uint, parsed.z as uint, parsed.block_id);
+            if parsed.destroyed{
+                level.set_block(parsed.x as uint, parsed.y as uint, parsed.z as uint, 0x00);
+            }else{
+                level.set_block(parsed.x as uint, parsed.y as uint, parsed.z as uint, parsed.block_id);
+            }
         }else if packet.packet_id == 0x0d{
             let parsed = packet.parse_message();
             println!("{}", parsed.message);
