@@ -40,7 +40,7 @@ impl World{
     
     pub fn get_block(&mut self, x: uint, y: uint, z: uint) -> u8{
         let block = self.calculate_block_from_coord(x, y, z);
-        return *self.blocks.get(block);
+        return *self.blocks.get_mut(block);
     }
     
     pub fn gzip_world(&mut self) -> Vec<u8>{

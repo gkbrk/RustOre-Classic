@@ -12,7 +12,7 @@ impl MCString for TcpStream{
         let mut length: uint = 0;
         bytes.reverse();
         for i in range(0u, bytes.len()){
-            if *bytes.get(i) != 0x20{
+            if *bytes.get_mut(i) != 0x20{
                 length = i;
                 break;
             }
@@ -36,7 +36,7 @@ impl MCString for MemReader{
         let mut length: uint = 0;
         bytes.reverse();
         for i in range(0u, bytes.len()){
-            if *bytes.get(i) != 0x20{
+            if *bytes.get_mut(i) != 0x20{
                 length = i;
                 break;
             }
