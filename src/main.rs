@@ -75,7 +75,7 @@ fn main(){
         address: "0.0.0.0".to_string(),
         port: 25565,
         max_players: 20,
-        server_name: "RustServerBetaDontJoin".to_string(),
+        server_name: "RustOreBeta".to_string(),
         server_motd: "A Minecraft classic server written in Rust!".to_string(),
         is_public: "True".to_string(),
         online_mode: false,
@@ -97,7 +97,7 @@ fn main(){
     heartbeat_sender.spawn_task();
     
     let mut acceptor = TcpListener::bind(config.address.as_slice(), config.port).listen().unwrap();
-    println!("Rustymine is listening on {}:{}", config.address, config.port);
+    println!("RustOre is listening on {}:{}", config.address, config.port);
     for connection in acceptor.incoming(){
         let config_clone = config.clone();
         let mutex_world_clone = mutex_world.clone();
