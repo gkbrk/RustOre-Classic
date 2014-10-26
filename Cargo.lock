@@ -2,23 +2,23 @@
 name = "RustOre-Classic"
 version = "0.0.1"
 dependencies = [
- "curl 0.0.1 (git+https://github.com/carllerche/curl-rust#4fd00ca19445304237d5cb0b19b8aa48393fac4f)",
+ "curl 0.0.1 (git+https://github.com/carllerche/curl-rust#949e9231a2c4f18b884b0ea67ae90437e185f0c2)",
  "flate2 0.0.1 (git+https://github.com/alexcrichton/flate2-rs#68971ae77a523c7ec3f19b4bcd195f76291ea390)",
- "rust-crypto 0.1.0 (git+https://github.com/DaGenix/rust-crypto#12e28a90f5432504302051b65967736761913ee2)",
+ "rust-crypto 0.1.0 (git+https://github.com/DaGenix/rust-crypto#4105f2a180701f67905939a2260b1fd0832fe253)",
 ]
 
 [[package]]
 name = "curl"
 version = "0.0.1"
-source = "git+https://github.com/carllerche/curl-rust#4fd00ca19445304237d5cb0b19b8aa48393fac4f"
+source = "git+https://github.com/carllerche/curl-rust#949e9231a2c4f18b884b0ea67ae90437e185f0c2"
 dependencies = [
- "url 0.1.0 (git+https://github.com/servo/rust-url#55b18b796ef2cef5490069dd450c60c2cc2c0c1b)",
+ "url 0.1.0 (git+https://github.com/servo/rust-url#7f1991d847fb8cf8648def2ff121bae90b89131f)",
 ]
 
 [[package]]
 name = "encoding"
 version = "0.1.0"
-source = "git+https://github.com/lifthrasiir/rust-encoding#ff55916fec8b5bf8667a74d5a060c8c951f28fe0"
+source = "git+https://github.com/lifthrasiir/rust-encoding#dd6183298e20b038fcd1cc4ab91405b3c72e49db"
 
 [[package]]
 name = "flate2"
@@ -28,13 +28,13 @@ source = "git+https://github.com/alexcrichton/flate2-rs#68971ae77a523c7ec3f19b4b
 [[package]]
 name = "rust-crypto"
 version = "0.1.0"
-source = "git+https://github.com/DaGenix/rust-crypto#12e28a90f5432504302051b65967736761913ee2"
+source = "git+https://github.com/DaGenix/rust-crypto#4105f2a180701f67905939a2260b1fd0832fe253"
 
 [[package]]
 name = "url"
 version = "0.1.0"
-source = "git+https://github.com/servo/rust-url#55b18b796ef2cef5490069dd450c60c2cc2c0c1b"
+source = "git+https://github.com/servo/rust-url#7f1991d847fb8cf8648def2ff121bae90b89131f"
 dependencies = [
- "encoding 0.1.0 (git+https://github.com/lifthrasiir/rust-encoding#ff55916fec8b5bf8667a74d5a060c8c951f28fe0)",
+ "encoding 0.1.0 (git+https://github.com/lifthrasiir/rust-encoding#dd6183298e20b038fcd1cc4ab91405b3c72e49db)",
 ]
 
