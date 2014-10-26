@@ -31,8 +31,11 @@ mod heartbeat;
 mod authentication_verifier;
 mod world;
 
-fn handle_connection(config: Configuration, mut conn: TcpStream, mutex_world: Arc<Mutex<World>>) -> IoResult<()>{
-    let ip = try!(conn.peer_name()).ip;
+fn handle_connection(config: Configuration, mut conn: TcpStream, mutex_world: Arc<Mutex<World>>){
+    let ip = match conn.peer_name(){
+        Ok(x) => x.ip,
+        Err(x) => {return;}
+    };
     println!("{} is connecting to us...", ip);
     loop{
         let packet = Packet::receive(conn.clone());
@@ -43,7 +46,7 @@ fn handle_connection(config: Configuration, mut conn: TcpStream, mutex_world: Ar
             if config.online_mode & !is_authenticated(config.clone().salt, parsed.clone().username, parsed.clone().verification_key){
                 println!("Player tried to join without auth!");
                 conn.close_read();
-                return Ok(());
+                return;
             }
             println!("{}", parsed.username);
             
@@ -71,7 +74,6 @@ fn handle_connection(config: Configuration, mut conn: TcpStream, mutex_world: Ar
             println!("{}", parsed.message);
         }
     }
-    Ok(())
 }
 
 fn main(){
