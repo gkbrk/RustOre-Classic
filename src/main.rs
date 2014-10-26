@@ -5,20 +5,14 @@ extern crate curl;
 
 extern crate sync;
 
-use curl::http;
-
-use std::io::{Listener, Acceptor, IoResult, IoError, InvalidInput};
+use std::io::{Listener, Acceptor};
 use std::io::net::tcp::{TcpListener, TcpStream};
-
-use std::io::timer;
-use std::time::Duration;
 
 use std::rand::{task_rng, Rng};
 
 use sync::{Mutex, Arc};
 
 use config::Configuration;
-use mc_string::MCString;
 use packets::{Packet, MCPackets};
 use heartbeat::Heartbeat;
 use authentication_verifier::is_authenticated;

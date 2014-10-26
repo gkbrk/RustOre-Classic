@@ -1,13 +1,6 @@
-extern crate flate2;
-
-use flate2::writer::GzEncoder;
-use std::io::MemWriter;
 use std::io::MemReader;
 
 use std::io::net::tcp::TcpStream;
-use std::io::{IoResult, IoError};
-
-use std::io::stdout;
 
 use config::Configuration;
 

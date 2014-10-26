@@ -2,7 +2,6 @@ extern crate curl;
 
 use curl::http;
 use config::Configuration;
-use std::comm::{Sender, Receiver, channel};
 use std::io::timer;
 use std::time::Duration;
 
