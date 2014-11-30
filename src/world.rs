@@ -35,12 +35,12 @@ impl World{
     
     pub fn set_block(&mut self, x: uint, y: uint, z: uint, block_id: u8){
         let block = self.calculate_block_from_coord(x, y, z);
-        *self.blocks.get_mut(block) = block_id;
+        *self.blocks.get_mut(block).unwrap() = block_id;
     }
     
     pub fn get_block(&mut self, x: uint, y: uint, z: uint) -> u8{
         let block = self.calculate_block_from_coord(x, y, z);
-        return *self.blocks.get_mut(block);
+        return *self.blocks.get_mut(block).unwrap();
     }
     
     pub fn gzip_world(&mut self) -> Vec<u8>{

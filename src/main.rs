@@ -92,7 +92,7 @@ fn main(){
     let heartbeat_sender = Heartbeat::new(config.clone());
     heartbeat_sender.spawn_task();
     
-    let mut acceptor = TcpListener::bind(config.address.as_slice(), config.port).listen().unwrap();
+    let mut acceptor = TcpListener::bind((config.address.as_slice(), config.port)).listen().unwrap();
     println!("RustOre is listening on {}:{}", config.address, config.port);
     for connection in acceptor.incoming(){
         let config_clone = config.clone();
