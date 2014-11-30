@@ -1,14 +1,12 @@
 extern crate flate2;
 extern crate curl;
 
-extern crate sync;
-
 use std::io::{Listener, Acceptor};
 use std::io::net::tcp::{TcpListener, TcpStream};
 
 use std::rand::{task_rng, Rng};
 
-use sync::{Mutex, Arc};
+use std::sync::{Mutex, Arc};
 
 use config::Configuration;
 use packets::{Packet, MCPackets};
