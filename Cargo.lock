@@ -2,39 +2,95 @@
 name = "RustOre-Classic"
 version = "0.0.1"
 dependencies = [
- "curl 0.0.1 (git+https://github.com/carllerche/curl-rust#949e9231a2c4f18b884b0ea67ae90437e185f0c2)",
- "flate2 0.0.1 (git+https://github.com/alexcrichton/flate2-rs#68971ae77a523c7ec3f19b4bcd195f76291ea390)",
- "rust-crypto 0.1.0 (git+https://github.com/DaGenix/rust-crypto#4105f2a180701f67905939a2260b1fd0832fe253)",
+ "curl 0.1.0 (git+https://github.com/carllerche/curl-rust)",
+ "flate2 0.1.0 (git+https://github.com/alexcrichton/flate2-rs)",
+ "rust-crypto 0.1.2 (git+https://github.com/DaGenix/rust-crypto)",
 ]
 
 [[package]]
 name = "curl"
-version = "0.0.1"
-source = "git+https://github.com/carllerche/curl-rust#949e9231a2c4f18b884b0ea67ae90437e185f0c2"
+version = "0.1.0"
+source = "git+https://github.com/carllerche/curl-rust#e57e9b2e6c2fc544056f28412e877268673d13c5"
 dependencies = [
- "url 0.1.0 (git+https://github.com/servo/rust-url#7f1991d847fb8cf8648def2ff121bae90b89131f)",
+ "curl-sys 0.1.0 (git+https://github.com/carllerche/curl-rust)",
+ "url 0.1.0 (git+https://github.com/servo/rust-url)",
 ]
 
 [[package]]
-name = "encoding"
+name = "curl-sys"
 version = "0.1.0"
-source = "git+https://github.com/lifthrasiir/rust-encoding#dd6183298e20b038fcd1cc4ab91405b3c72e49db"
+source = "git+https://github.com/carllerche/curl-rust#e57e9b2e6c2fc544056f28412e877268673d13c5"
+dependencies = [
+ "libz-sys 0.1.0 (git+https://github.com/alexcrichton/libz-sys)",
+ "openssl-sys 0.2.1 (git+https://github.com/sfackler/rust-openssl)",
+ "pkg-config 0.1.0 (git+https://github.com/alexcrichton/pkg-config-rs)",
+]
 
 [[package]]
 name = "flate2"
-version = "0.0.1"
-source = "git+https://github.com/alexcrichton/flate2-rs#68971ae77a523c7ec3f19b4bcd195f76291ea390"
+version = "0.1.0"
+source = "git+https://github.com/alexcrichton/flate2-rs#f9ab9da89fec6e18e6d3544be2a93b4f3eaa5dbe"
+dependencies = [
+ "miniz-sys 0.1.0 (git+https://github.com/alexcrichton/flate2-rs)",
+]
+
+[[package]]
+name = "gcc"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "libz-sys"
+version = "0.1.0"
+source = "git+https://github.com/alexcrichton/libz-sys#5622ae17a0262af56055b71f0d74fa5ee91d3a41"
+dependencies = [
+ "pkg-config 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "miniz-sys"
+version = "0.1.0"
+source = "git+https://github.com/alexcrichton/flate2-rs#f9ab9da89fec6e18e6d3544be2a93b4f3eaa5dbe"
+dependencies = [
+ "gcc 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "openssl-sys"
+version = "0.2.1"
+source = "git+https://github.com/sfackler/rust-openssl#c3603b0db00d044c8332d39dd9d49e3c76a2a978"
+dependencies = [
+ "pkg-config 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "pkg-config"
+version = "0.1.0"
+source = "git+https://github.com/alexcrichton/pkg-config-rs#9b3b44a2e1a8ccc70c3f701aeb5154ad79e665e9"
+
+[[package]]
+name = "pkg-config"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "rust-crypto"
+version = "0.1.2"
+source = "git+https://github.com/DaGenix/rust-crypto#cab70d0b17f23aae1a844d8ae7490a7ee4403a32"
+dependencies = [
+ "time 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "time"
 version = "0.1.0"
-source = "git+https://github.com/DaGenix/rust-crypto#4105f2a180701f67905939a2260b1fd0832fe253"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "gcc 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 
 [[package]]
 name = "url"
 version = "0.1.0"
-source = "git+https://github.com/servo/rust-url#7f1991d847fb8cf8648def2ff121bae90b89131f"
-dependencies = [
- "encoding 0.1.0 (git+https://github.com/lifthrasiir/rust-encoding#dd6183298e20b038fcd1cc4ab91405b3c72e49db)",
-]
+source = "git+https://github.com/servo/rust-url#9f05a0108025a1c9002e8977a42dce764895d170"
 
