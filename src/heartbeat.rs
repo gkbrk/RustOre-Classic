@@ -18,7 +18,7 @@ impl Heartbeat{
     }
     
     pub fn send_heartbeat(&self){
-        let response = http::handle().get(format!("https://minecraft.net/heartbeat.jsp?port={:u}&max={:u}&name={:s}&public={:s}&version=7&salt={:s}&users=0", self.config.port, self.config.max_players, self.config.server_name.as_slice(), self.config.is_public.as_slice(), self.config.salt.as_slice())).exec().unwrap();
+        let response = http::handle().get(format!("https://minecraft.net/heartbeat.jsp?port={}&max={}&name={}&public={}&version=7&salt={}&users=0", self.config.port, self.config.max_players, self.config.server_name.as_slice(), self.config.is_public.as_slice(), self.config.salt.as_slice())).exec().unwrap();
     }
     
     pub fn loop_blocking(&self){
