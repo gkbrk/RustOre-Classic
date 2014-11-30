@@ -1,3 +1,4 @@
+![Travis-CI](https://travis-ci.org/gkbrk/RustOre-Classic.svg?branch=master)
 #RustOre#
 RustOre is a tiny Minecraft Classic server. It is a Work in Progress and still lacks a lot of functionality.
 
