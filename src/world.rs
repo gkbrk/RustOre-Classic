@@ -44,7 +44,7 @@ impl World{
     }
     
     pub fn gzip_world(&mut self) -> Vec<u8>{
-        let mut gzipper = GzEncoder::new(MemWriter::new(), flate2::Default);
+        let mut gzipper = GzEncoder::new(MemWriter::new(), flate2::CompressionLevel::Default);
         gzipper.write_be_i32((self.x_size * self.y_size * self.z_size) as i32);
         for block in self.blocks.iter(){
             gzipper.write_u8(*block);
