@@ -4,6 +4,7 @@ use curl::http;
 use config::Configuration;
 use std::io::timer;
 use std::time::Duration;
+use std::thread::Thread;
 
 #[deriving(Clone)]
 pub struct Heartbeat{
@@ -31,8 +32,8 @@ impl Heartbeat{
     
     pub fn spawn_task(&self){
         let clone = self.clone();
-        spawn(proc() {
+        Thread::spawn(move || {
             clone.loop_blocking();
-        });
+        }).detach();
     }
 }

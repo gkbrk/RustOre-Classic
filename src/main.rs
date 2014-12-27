@@ -8,6 +8,8 @@ use std::rand::{task_rng, Rng};
 
 use std::sync::{Mutex, Arc};
 
+use std::thread::Thread;
+
 use config::Configuration;
 use packets::{Packet, MCPackets};
 use heartbeat::Heartbeat;
@@ -97,8 +99,8 @@ fn main(){
     for connection in acceptor.incoming(){
         let config_clone = config.clone();
         let mutex_world_clone = mutex_world.clone();
-        spawn(proc() {
+        Thread::spawn(move || {
             handle_connection(config_clone, connection.unwrap(), mutex_world_clone);
-        });
+        }).detach();
     }
 }
