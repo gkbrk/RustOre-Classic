@@ -35,7 +35,12 @@ impl World{
     
     pub fn set_block(&mut self, x: uint, y: uint, z: uint, block_id: u8){
         let block = self.calculate_block_from_coord(x, y, z);
-        *self.blocks.get_mut(block).unwrap() = block_id;
+        match self.blocks.get_mut(block){
+            Some(x) => {
+                *x = block_id;
+            },
+            None => {return;}
+        }
     }
     
     pub fn get_block(&mut self, x: uint, y: uint, z: uint) -> u8{
