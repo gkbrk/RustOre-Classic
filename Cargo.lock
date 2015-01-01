@@ -22,7 +22,7 @@ version = "0.1.2"
 source = "git+https://github.com/carllerche/curl-rust#6f4d66ed0bc5e71a0ea86a37f038f7c9f73dc3ae"
 dependencies = [
  "libz-sys 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "openssl-sys 0.2.9 (registry+https://github.com/rust-lang/crates.io-index)",
+ "openssl-sys 0.2.10 (registry+https://github.com/rust-lang/crates.io-index)",
  "pkg-config 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -65,7 +65,7 @@ dependencies = [
 
 [[package]]
 name = "openssl-sys"
-version = "0.2.9"
+version = "0.2.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "libressl-pnacl-sys 2.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -85,7 +85,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "rust-crypto"
 version = "0.2.6"
-source = "git+https://github.com/DaGenix/rust-crypto#a39724f8d5ca64747f4de33cb48f3179cfad8cb0"
+source = "git+https://github.com/DaGenix/rust-crypto#d528f48784e1d827aa3ce6475c7ccc1ad352d3d4"
 dependencies = [
  "rustc-serialize 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "time 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
