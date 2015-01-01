@@ -1,4 +1,4 @@
-use std::rand::{task_rng, Rng};
+use std::rand::{thread_rng, Rng};
 
 #[deriving(Clone)]
 pub struct Configuration{
@@ -23,7 +23,7 @@ impl Configuration{
             server_motd: "A Minecraft classic server written in Rust".to_string(),
             is_public: "True".to_string(),
             online_mode: false,
-            salt: task_rng().gen_ascii_chars().take(16).collect(),
+            salt: thread_rng().gen_ascii_chars().take(16).collect(),
             heartbeat_interval: 45
         };
     }

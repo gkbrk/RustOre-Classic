@@ -11,7 +11,7 @@ use std::thread::Thread;
 use config::Configuration;
 use packets::{Packet, MCPackets};
 use heartbeat::Heartbeat;
-use authentication_verifier::is_authenticated;
+//use authentication_verifier::is_authenticated;
 use world::World;
 
 mod mc_string;
@@ -33,18 +33,18 @@ fn handle_connection(config: Configuration, mut conn: TcpStream, mutex_world: Ar
         
         if packet.packet_id == 0x00{
             let parsed = packet.parse_player_ident();
-            if config.online_mode & !is_authenticated(config.clone().salt, parsed.clone().username, parsed.clone().verification_key){
-                println!("Player tried to join without auth!");
-                conn.close_read();
-                return;
-            }
+            //if config.online_mode & !is_authenticated(config.clone().salt, parsed.clone().username, parsed.clone().verification_key){
+            //    println!("Player tried to join without auth!");
+            //    conn.close_read();
+            //    return;
+            //}
             println!("{}", parsed.username);
             
             conn.send_server_ident(config.clone());
             
             
             //Send debug level data
-            let mut level = mutex_world.lock();
+            let mut level = mutex_world.lock().unwrap();
             level.send_world(conn.clone());
             
             //conn.send_spawn_player(5*32, 15*32, 5*32, 5, 5);
@@ -53,7 +53,7 @@ fn handle_connection(config: Configuration, mut conn: TcpStream, mutex_world: Ar
             //println!("Player moved");
         }else if packet.packet_id == 0x05{
             let parsed = packet.parse_set_block();
-            let mut level = mutex_world.lock();
+            let mut level = mutex_world.lock().unwrap();
             if parsed.destroyed{
                 level.set_block(parsed.x as uint, parsed.y as uint, parsed.z as uint, 0x00);
             }else{
