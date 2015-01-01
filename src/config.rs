@@ -1,3 +1,5 @@
+use std::rand::{task_rng, Rng};
+
 #[deriving(Clone)]
 pub struct Configuration{
     pub address: String,
@@ -12,7 +14,7 @@ pub struct Configuration{
 }
 
 impl Configuration{
-    fn get_default_config() -> Configuration{
+    pub fn get_default_config() -> Configuration{
         return Configuration{
             address: "0.0.0.0".to_string(),
             port: 25565,

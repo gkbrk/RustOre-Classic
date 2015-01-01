@@ -4,8 +4,6 @@ extern crate curl;
 use std::io::{Listener, Acceptor};
 use std::io::net::tcp::{TcpListener, TcpStream};
 
-use std::rand::{task_rng, Rng};
-
 use std::sync::{Mutex, Arc};
 
 use std::thread::Thread;
