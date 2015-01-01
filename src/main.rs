@@ -69,17 +69,7 @@ fn handle_connection(config: Configuration, mut conn: TcpStream, mutex_world: Ar
 }
 
 fn main(){
-    let config = Configuration{
-        address: "0.0.0.0".to_string(),
-        port: 25565,
-        max_players: 20,
-        server_name: "RustOreBeta".to_string(),
-        server_motd: "A Minecraft classic server written in Rust!".to_string(),
-        is_public: "True".to_string(),
-        online_mode: false,
-        salt: task_rng().gen_ascii_chars().take(16).collect(),
-        heartbeat_interval: 45
-    };
+    let config = Configuration::get_default_config();
     
     let mut mc_world = World::new(10, 10, 10);
     for i in range(0u, 10){
